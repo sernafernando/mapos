@@ -1,0 +1,31 @@
+version: '1.0'
+
+services:
+  app:
+    image: php:7.4-apache
+    ports:
+      - 80
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=mapos
+      - DB_USER=maposuser
+      - DB_PASS=mapospass
+    command: >
+      bash -c "docker-php-ext-install mysqli &&
+               apache2-foreground"
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: mapos
+      MYSQL_USER: maposuser
+      MYSQL_PASSWORD: mapospass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
