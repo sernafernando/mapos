@@ -22,10 +22,10 @@ services:
     image: mysql:5.7
     container_name: mapos_db
     environment:
-      MYSQL_ROOT_PASSWORD: root_pass
-      MYSQL_DATABASE: mapos_db
-      MYSQL_USER: mapos_user
-      MYSQL_PASSWORD: mapos_pass
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mapos
+      MYSQL_USER: root
+      MYSQL_PASSWORD: mapos
     volumes:
       - db_data:/var/lib/mysql
     networks:
