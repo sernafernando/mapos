@@ -1,31 +1,38 @@
 version: '3.8'
 
 services:
-  app:
+  mapos:
     image: php:7.4-apache
+    container_name: mapos_app
     ports:
-      - "8000:80"  # Mapea puerto 80 interno a 8000 host
+      - "8000:80"
     volumes:
-      - .:/var/www/html
+      - ./:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_USER: mapos_user
+      DB_PASSWORD: mapos_pass
+      DB_NAME: mapos_db
     depends_on:
       - db
-    environment:
-      - DB_HOST=db
-      - DB_NAME=mapos
-      - DB_USER=maposuser
-      - DB_PASS=mapospass
-    command: >
-      bash -c "docker-php-ext-install mysqli && apache2-foreground"
+    networks:
+      - mapos_net
 
   db:
     image: mysql:5.7
+    container_name: mapos_db
     environment:
-      MYSQL_DATABASE: mapos
-      MYSQL_USER: maposuser
-      MYSQL_PASSWORD: mapospass
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: mapos_db
+      MYSQL_USER: mapos_user
+      MYSQL_PASSWORD: mapos_pass
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - mapos_net
+
+networks:
+  mapos_net:
 
 volumes:
   db_data:
