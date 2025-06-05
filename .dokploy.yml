@@ -4,7 +4,7 @@ services:
   app:
     image: php:7.4-apache
     ports:
-      - 9000:80
+      - 9000
     volumes:
       - .:/var/www/html
     depends_on:
